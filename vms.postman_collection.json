@@ -1,0 +1,607 @@
+{
+	"info": {
+		"_postman_id": "ab5e439c-e435-4ad1-8d4c-2ed5ca552f2a",
+		"name": "vms",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26355580",
+		"_collection_link": "https://lunar-meadow-194442.postman.co/workspace/My-Workspace~bd93a4f1-1ab7-4bb9-85fc-cb5c73c64225/collection/26355580-ab5e439c-e435-4ad1-8d4c-2ed5ca552f2a?action=share&source=collection_link&creator=26355580"
+	},
+	"item": [
+		{
+			"name": "Auth_token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"tballa\",\n    \"password\":\"admin\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api-token-auth/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api-token-auth",
+						""
+					]
+				}
+			},
+			"response": [{
+				"token": "b0d1cd2de6ae71ea0573ae83861d3a35bea75a09"
+			}]
+		},
+		{
+			"name": "Vendor Profile Management",
+			"item": [
+				{
+					"name": "get_vendors",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "token b0d1cd2de6ae71ea0573ae83861d3a35bea75a09",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/vendors/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"vendors",
+								""
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [[
+						{
+							"id": 1,
+							"name": "Teja",
+							"contact_details": "953953",
+							"address": "hyd",
+							"vendor_code": "code1"
+						}
+					]]
+				},
+				{
+					"name": "create_vendor",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "token b0d1cd2de6ae71ea0573ae83861d3a35bea75a09",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"name\": \"Teja\",\n        \"contact_details\": \"953953\",\n        \"address\": \"hyd\",\n        \"vendor_code\": \"code1\"\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/vendors/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"vendors",
+								""
+							]
+						}
+					},
+					"response": [{
+						"id": 1,
+						"name": "Teja",
+						"contact_details": "953953",
+						"address": "hyd",
+						"vendor_code": "code1"
+					}]
+				},
+				{
+					"name": "get_vendor",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "token b0d1cd2de6ae71ea0573ae83861d3a35bea75a09",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/vendors/1/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"vendors",
+								"1",
+								""
+							]
+						}
+					},
+					"response": [{
+						"id": 1,
+						"name": "Teja",
+						"contact_details": "953953",
+						"address": "hyd",
+						"vendor_code": "code1"
+					}]
+				},
+				{
+					"name": "update_vendor",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "token b0d1cd2de6ae71ea0573ae83861d3a35bea75a09",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"name\": \"Teja\",\n    \"contact_details\": \"953953\",\n    \"address\": \"hyd\",\n    \"vendor_code\": \"code2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/vendors/1/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"vendors",
+								"1",
+								""
+							]
+						}
+					},
+					"response": [{
+						"id": 1,
+						"name": "Teja",
+						"contact_details": "953953",
+						"address": "hyd",
+						"vendor_code": "code2"
+					}]
+				},
+				{
+					"name": "delete_vendor",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "token b0d1cd2de6ae71ea0573ae83861d3a35bea75a09",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/vendors/1/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"vendors",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vendor_Performance",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "token b0d1cd2de6ae71ea0573ae83861d3a35bea75a09",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/vendors/1/performance/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"vendors",
+								"1",
+								"performance",
+								""
+							]
+						}
+					},
+					"response": [{
+						"on_time_delivery_rate": 100.0,
+						"quality_rating_avg": 3.0,
+						"average_response_time": 33.12,
+						"fulfillment_rate": 100.0
+					}]
+				}
+			],
+			"description": "API Endpoints:  \n● POST /api/vendors/: Create a new vendor.  \n● GET /api/vendors/: List all vendors.  \n● GET /api/vendors/{vendor_id}/: Retrieve a specific vendor's details.  \n● PUT /api/vendors/{vendor_id}/: Update a vendor's details.  \n● DELETE /api/vendors/{vendor_id}/: Delete a vendor.\n\n● GET /api/vendors/{vendor_id}/performance/:Vendor Performance Endpoint."
+		},
+		{
+			"name": "Purchase Order Tracking",
+			"item": [
+				{
+					"name": "get_pos",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "token b0d1cd2de6ae71ea0573ae83861d3a35bea75a09",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/purchase_orders/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"purchase_orders",
+								""
+							]
+						}
+					},
+					"response": [[
+						{
+							"id": 1,
+							"po_number": "1",
+							"order_date": "2024-04-29T16:16:51+05:30",
+							"delivery_date": "2024-05-01T16:17:03+05:30",
+							"delivered_date": null,
+							"items": {
+								"shoes": 1
+							},
+							"quantity": 1,
+							"status": "pending",
+							"quality_rating": 3.0,
+							"issue_date": "2024-04-29T16:17:30+05:30",
+							"acknowledgment_date": "2024-04-29T16:17:35+05:30",
+							"vendor": 1
+						},
+						{
+							"id": 2,
+							"po_number": "2",
+							"order_date": "2024-04-29T16:16:51+05:30",
+							"delivery_date": "2024-05-01T16:17:03+05:30",
+							"delivered_date": null,
+							"items": {
+								"bags": 10
+							},
+							"quantity": 10,
+							"status": "pending",
+							"quality_rating": 5.0,
+							"issue_date": "2024-04-29T16:17:30+05:30",
+							"acknowledgment_date": "2024-04-29T16:17:35+05:30",
+							"vendor": 1
+						}
+					]]
+				},
+				{
+					"name": "create_po",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "token b0d1cd2de6ae71ea0573ae83861d3a35bea75a09",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": " {\n        \n        \"po_number\": \"2\",\n        \"order_date\": \"2024-04-29T10:46:51Z\",\n        \"delivery_date\": \"2024-05-01T10:47:03Z\",\n        \"items\": {\n            \"bags\": 10\n        },\n        \"quantity\": 10,\n        \"status\": \"pending\",\n        \"quality_rating\": 5.0,\n        \"issue_date\": \"2024-04-29T10:47:30Z\",\n        \"acknowledgment_date\": \"2024-04-29T10:47:35Z\",\n        \"vendor\": 1\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/purchase_orders/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"purchase_orders",
+								""
+							]
+						}
+					},
+					"response": [{
+						"id": 2,
+						"po_number": "2",
+						"order_date": "2024-04-29T16:16:51+05:30",
+						"delivery_date": "2024-05-01T16:17:03+05:30",
+						"delivered_date": null,
+						"items": {
+							"bags": 10
+						},
+						"quantity": 10,
+						"status": "pending",
+						"quality_rating": 5.0,
+						"issue_date": "2024-04-29T16:17:30+05:30",
+						"acknowledgment_date": "2024-04-29T16:17:35+05:30",
+						"vendor": 1
+					}]
+				},
+				{
+					"name": "get_po",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "token b0d1cd2de6ae71ea0573ae83861d3a35bea75a09",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/purchase_orders/1/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"purchase_orders",
+								"1",
+								""
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [{
+						"id": 1,
+						"po_number": "1",
+						"order_date": "2024-04-29T16:16:51+05:30",
+						"delivery_date": "2024-05-01T16:17:03+05:30",
+						"delivered_date": null,
+						"items": {
+							"shoes": 1
+						},
+						"quantity": 1,
+						"status": "pending",
+						"quality_rating": 3.0,
+						"issue_date": "2024-04-29T16:17:30+05:30",
+						"acknowledgment_date": "2024-04-29T16:17:35+05:30",
+						"vendor": 1
+					}]
+				},
+				{
+					"name": "update_po",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "token b0d1cd2de6ae71ea0573ae83861d3a35bea75a09",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": " {\n        \n        \"po_number\": \"2\",\n        \"order_date\": \"2024-04-29T10:46:51Z\",\n        \"delivery_date\": \"2024-05-01T10:47:03Z\",\n        \"delivered_date\" : \"2024-05-01\",\n        \"items\": {\n            \"bags\": 10\n        },\n        \"quantity\": 10,\n        \"status\": \"completed\",\n        \"quality_rating\": 5.0,\n        \"issue_date\": \"2024-04-29T10:47:30Z\",\n        \"acknowledgment_date\": \"2024-04-29T10:47:35Z\",\n        \"vendor\": 1\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/purchase_orders/2/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"purchase_orders",
+								"2",
+								""
+							]
+						}
+					},
+					"response": [{
+						"id": 2,
+						"po_number": "2",
+						"order_date": "2024-04-29T16:16:51+05:30",
+						"delivery_date": "2024-05-01T16:17:03+05:30",
+						"delivered_date": "2024-05-01",
+						"items": {
+							"bags": 10
+						},
+						"quantity": 10,
+						"status": "completed",
+						"quality_rating": 5.0,
+						"issue_date": "2024-04-29T16:17:30+05:30",
+						"acknowledgment_date": "2024-04-29T16:17:35+05:30",
+						"vendor": 1
+					}]
+				},
+				{
+					"name": "delete_po",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "token b0d1cd2de6ae71ea0573ae83861d3a35bea75a09",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/purchase_orders/1/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"purchase_orders",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update_Acknowledgment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "token b0d1cd2de6ae71ea0573ae83861d3a35bea75a09",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/purchase_orders/2/acknowledge/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"purchase_orders",
+								"2",
+								"acknowledge",
+								""
+							]
+						}
+					},
+					"response": [{
+						"message": "Purchase Order acknowledged successfully"
+					}]
+				}
+			],
+			"description": "API Endpoints:  \n● POST /api/purchase_orders/: Create a purchase order.  \n● GET /api/purchase_orders/: List all purchase orders with an option to filter by  \nvendor.  \n● GET /api/purchase_orders/{po_id}/: Retrieve details of a specific purchase order.  \n● PUT /api/purchase_orders/{po_id}/: Update a purchase order.  \n● DELETE /api/purchase_orders/{po_id}/: Delete a purchase order.\n\n●POST /api/purchase_orders/{po_id}/acknowledge/:Update Acknowledgment Endpoint."
+		}
+	]
+}
