@@ -22,6 +22,15 @@ class Vendor(models.Model):
 
 
 class PurchaseOrder(models.Model):
+    '''
+    Using the `delivery_date` for both the expected and actual delivery date of the order might seem fine initially.
+    However, while performing calculations for `on_time_delivery_rate` there will be cases where the delivered date 
+    exceeds the current time (late delivery). In such cases, the `on_time_delivery_rate` will not change due to 
+    condition failure in logic. However, eventually, the delivered date will be less than the current time, causing 
+    it to be considered as completed on time delivery  even though it is a late delivery. Since there is no field to 
+    store the actual delivery date, it will misguide the `on_time_delivery_rate`. Therefore, in order to calculate 
+    the `on_time_delivery_rate` in this scenario, we need to add an extra field named `delivered_date` (actual).
+    '''
     po_number = models.CharField(max_length=100, unique=True)
     vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
     order_date = models.DateTimeField()
