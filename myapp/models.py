@@ -103,7 +103,8 @@ def update_on_time_delivery_rate(sender, instance, created, **kwargs):
         response_time=F('acknowledgment_date') - F('issue_date')).aggregate(Avg('response_time'))['response_time__avg']
     if response_times is not None:
         response_time_seconds = response_times.total_seconds()
-        vendor.average_response_time = round(response_time_seconds / 60, 2)
+        #average_response_time in hours
+        vendor.average_response_time = round(response_time_seconds / 3600, 2)
     else:
         vendor.average_response_time = 0
 
