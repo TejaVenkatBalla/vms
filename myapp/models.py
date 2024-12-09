@@ -86,6 +86,7 @@ def update_on_time_delivery_rate(sender, instance, created, **kwargs):
 
     if instance.status == 'completed':
         # Calculate on_time_delivery_rate
+        instance.delivered_date = timezone.now()
         completed_pos = PurchaseOrder.objects.filter(
             vendor=vendor, status='completed')
         total_completed_pos = completed_pos.count()
