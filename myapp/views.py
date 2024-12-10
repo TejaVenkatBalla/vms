@@ -1,7 +1,6 @@
 from rest_framework import generics, status
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.utils import timezone
 from .models import Vendor, PurchaseOrder, HistoricalPerformance
@@ -22,13 +21,11 @@ class VendorListCreate(generics.ListCreateAPIView):
     - IsAuthenticated: Only authenticated users are allowed access.
 
     Attributes:
-    - authentication_classes (list): List of authentication classes.
     - permission_classes (list): List of permission classes.
     - queryset (QuerySet): Queryset of all Vendor objects.
     - serializer_class (Serializer): Serializer class for Vendor objects.
     """
 
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     queryset = Vendor.objects.all()
     serializer_class = VendorSerializer
@@ -47,19 +44,17 @@ class VendorRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     - IsAuthenticated: Only authenticated users are allowed access.
 
     Attributes:
-    - authentication_classes (list): List of authentication classes.
     - permission_classes (list): List of permission classes.
     - queryset (QuerySet): Queryset of all Vendor objects.
     - serializer_class (Serializer): Serializer class for Vendor objects.
     """
-    authentication_classes = [TokenAuthentication]
+
     permission_classes = [IsAuthenticated]
     queryset = Vendor.objects.all()
     serializer_class = VendorSerializer
 
 
 @api_view(['GET'])
-@authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def vendor_performance(request, vendor_id):
     """
@@ -116,11 +111,9 @@ class PurchaseOrderListCreate(generics.ListCreateAPIView):
     - IsAuthenticated: Only authenticated users are allowed access.
 
     Attributes:
-    - authentication_classes (list): List of authentication classes.
     - permission_classes (list): List of permission classes.
     - serializer_class (Serializer): Serializer class for Purchase Order objects.
     """
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     serializer_class = PurchaseOrderSerializer
 
@@ -145,19 +138,16 @@ class PurchaseOrderRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     - IsAuthenticated: Only authenticated users are allowed access.
 
     Attributes:
-    - authentication_classes (list): List of authentication classes.
     - permission_classes (list): List of permission classes.
     - queryset (QuerySet): Queryset of all PurchaseOrder objects.
     - serializer_class (Serializer): Serializer class for PurchaseOrder objects.
     """
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     queryset = PurchaseOrder.objects.all()
     serializer_class = PurchaseOrderSerializer
 
 
 @api_view(['POST'])
-@authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def acknowledge_purchase_order(request, po_id):
     """

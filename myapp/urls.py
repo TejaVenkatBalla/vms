@@ -1,7 +1,12 @@
 from django.urls import path
 from . import views
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
+    #signin/signup
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
     # Vendor URLs
     path('api/vendors/', views.VendorListCreate.as_view(), name='vendor-list'),
     path('api/vendors/<int:pk>/',
