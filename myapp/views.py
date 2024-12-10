@@ -4,7 +4,32 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.utils import timezone
 from .models import Vendor, PurchaseOrder, HistoricalPerformance
-from .serializers import VendorSerializer, PurchaseOrderSerializer
+from .serializers import VendorSerializer, PurchaseOrderSerializer, UserSerializer
+from rest_framework.views import APIView
+from rest_framework_simplejwt.tokens import RefreshToken
+
+class RegisterView(APIView):
+    def post(self, request):
+        # Validate and serialize user data
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            # Create user and generate JWT tokens
+            user = serializer.save()
+
+            # Create JWT token pair (access and refresh)
+            refresh = RefreshToken.for_user(user)
+            access_token = str(refresh.access_token)
+
+            # Return the tokens as response
+            return Response({
+                "message": "User Successfully Registerd",
+                'refresh': str(refresh),
+                'access': access_token,
+            }, status=status.HTTP_201_CREATED)
+
+        # If validation fails, return errors
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 # Vendor views
