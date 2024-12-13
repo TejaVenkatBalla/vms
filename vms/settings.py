@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'myapp.apps.MyappConfig',
     #'rest_framework.authtoken'
     'rest_framework_simplejwt',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -139,9 +140,9 @@ REST_FRAMEWORK = {
 }
 
 #Celery settings
-CELERY_BROKER_URL = "redis://default:d9j1AD4QlxgdWaIoOjx5QXWTqUZ3xxja@redis-19910.c1.us-central1-2.gce.redns.redis-cloud.com:19910"#'redis://localhost:6379/0'  # Example using Redis
+CELERY_BROKER_URL = os.getenv("REDIS_URI")
 CELERY_ACCEPT_CONTENT = ['json']
-CELERY_RESULT_BACKEND = "redis://default:d9j1AD4QlxgdWaIoOjx5QXWTqUZ3xxja@redis-19910.c1.us-central1-2.gce.redns.redis-cloud.com:19910" #'django-db'  # Store results in the Django database
+CELERY_RESULT_BACKEND = os.getenv("REDIS_URI")
 CELERY_TASK_SERIALIZER = 'json'
 
 #email settings

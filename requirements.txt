@@ -2,3 +2,4 @@ Django
 djangorestframework
 djangorestframework-simplejwt
 celery
+django-celery-beat
