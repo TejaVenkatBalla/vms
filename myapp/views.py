@@ -7,7 +7,7 @@ from .models import Vendor, PurchaseOrder, HistoricalPerformance
 from .serializers import VendorSerializer, PurchaseOrderSerializer, UserSerializer
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
-
+from .tasks import send_vendor_notification_email
 class RegisterView(APIView):
     def post(self, request):
         # Validate and serialize user data
@@ -29,8 +29,6 @@ class RegisterView(APIView):
 
         # If validation fails, return errors
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
 
 # Vendor views
 class VendorListCreate(generics.ListCreateAPIView):
@@ -54,7 +52,6 @@ class VendorListCreate(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Vendor.objects.all()
     serializer_class = VendorSerializer
-
 
 class VendorRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     """
@@ -121,33 +118,46 @@ def vendor_performance(request, vendor_id):
     return Response(performance_metrics)
 
 # Purchase order views
-
-
 class PurchaseOrderListCreate(generics.ListCreateAPIView):
     """
     A view for listing and creating Purchase Order objects.
-
-    This view supports listing all Purchase Order objects and creating new Purchase Order objects.
-
-    Authentication:
-    - TokenAuthentication: The user must be authenticated with a valid token.
-
-    Permissions:
-    - IsAuthenticated: Only authenticated users are allowed access.
-
-    Attributes:
-    - permission_classes (list): List of permission classes.
-    - serializer_class (Serializer): Serializer class for Purchase Order objects.
     """
     permission_classes = [IsAuthenticated]
     serializer_class = PurchaseOrderSerializer
 
     def get_queryset(self):
-        # an option to filter by vendor.
         vendor_id = self.request.query_params.get('vendor_id')
         if vendor_id:
             return PurchaseOrder.objects.filter(vendor__id=vendor_id)
         return PurchaseOrder.objects.all()
+
+    def perform_create(self, serializer):
+        """
+        Save the Purchase Order and send a notification email to the vendor.
+        """
+        # Save the purchase order instance
+        purchase_order = serializer.save()
+
+        # Retrieve vendor details
+        vendor = purchase_order.vendor
+        vendor_email = vendor.email # Assuming 'email' is in contact_details
+        vendor_name = vendor.name
+
+        # Compose the email
+        subject = f"New Purchase Order Issued: {purchase_order.po_number}"
+        message = (
+            f"Dear {vendor_name},\n\n"
+            f"A new Purchase Order (PO#{purchase_order.po_number}) has been issued to you on {purchase_order.order_date}.\n\n"
+            f"Order Details:\n"
+            f"- Items: {purchase_order.items}\n"
+            f"- Delivery Date: {purchase_order.delivery_date}\n\n"
+            f"Please acknowledge this order at your earliest convenience.\n\n"
+            f"Best regards,\n[Vendor Management System]"
+        )
+
+        # Trigger the Celery task to send the email
+        if vendor_email:
+            send_vendor_notification_email.delay(vendor_email, subject, message)
 
 
 class PurchaseOrderRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):

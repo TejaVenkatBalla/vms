@@ -6,11 +6,12 @@ from django.db.models import Avg, F
 
 
 class Vendor(models.Model):
-    # below 4 are mandatory to be displayed
+    # below 5 are mandatory to be displayed
     name = models.CharField(max_length=100)
     contact_details = models.TextField()
     address = models.TextField()
     vendor_code = models.CharField(max_length=50, unique=True)
+    email = models.EmailField(max_length=255,blank=True)
 
     on_time_delivery_rate = models.FloatField(default=0)
     quality_rating_avg = models.FloatField(default=0)
