@@ -9,9 +9,22 @@
 - [API Documentation](#api-documentation)
 - [Contact](#contact)
  
-## Description
-Vendor Management System using Django and Django REST Framework. This system will handle vendor profiles,
-track purchase orders, and calculate vendor performance metrics.
+
+## Description  
+
+The Vendor Management System is built using Django REST Framework and Celery, offering robust features for email notifications and task scheduling. This system manages vendor profiles, tracks purchase orders, and calculates key performance metrics such as on-time delivery rate, quality ratings, response time, and fulfillment rate.  
+
+Key functionalities include:  
+- **Real-time Notifications:** Sends email notifications to vendors when new purchase orders are issued.  
+- **Deadline Reminders:** Notifies vendors about pending deliveries as deadlines approach.  
+
+### Technology Stack:  
+- **Authentication:** JWT (JSON Web Token)  
+- **Database:** PostgreSQL  
+- **Task Queue:** Celery for scheduling and executing background tasks efficiently.  
+
+
+
 
 ## Setup
 To use Vendor Management System use below repo
@@ -54,20 +67,45 @@ To execute test scripts, use `python3 manage.py test`
 ## API Documentation
 Link to the [Postman Collection](https://github.com/TejaVenkatBalla/vms/blob/main/vms.postman_collection.json)
 
-### Auth_token Endpoint
-- **Method:** POST
-- **URL:** `http://127.0.0.1:8000/api-token-auth/`
-- **Body:** JSON with username and password
+### User Signup/Signin Endpoints
+
+#### User Registration
+
+- **Method:** POST  
+- **URL:** `http://127.0.0.1:8000/api/register/`  
+- **Request Body:** JSON containing `username`, `password`, and `email`:  
+    ```json
+    {
+        "username": "tb",
+        "password": "rander",
+        "email": "tb@gmail.com"
+    }
+    ```  
+- **Response:** On successful registration, returns a confirmation message along with `refresh` and `access` tokens:  
+    ```json
+    {
+        "message": "User Successfully Registered",
+        "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczNDM1MjUwOSwiaWF0IjoxNzM0MjY2MTA5LCJqdGkiOiJlOTU1NGVlYTE5YmI0MGY4OTdhMDAwZTE0MTljYjM4NiIsInVzZXJfaWQiOjN9.GBv6_bdGbyYL1VEHSCMMnIio9U8a-k9-SebXOIkugCQ",
+        "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0MjY2NDA5LCJpYXQiOjE3MzQyNjYxMDksImp0aSI6ImIzYWU5MmIyMjBlNDRmNDQ5ZWIzOWJkZjUwZWM3YjNiIiwidXNlcl9pZCI6M30.vfAxmYGZSPKbD9WRA4xOXl7vMxaRH-CLcchk7CFTago"
+    }
+    ```  
+
+#### User Login
+
+- **Method:** POST  
+- **URL:** `http://127.0.0.1:8000/api/login/`  
+- **Request Body:** JSON containing `username` and `password`:  
     ```json
     {
         "username": "tballa",
         "password": "admin"
     }
-    ```
-- **Response:** 
+    ```  
+- **Response:** On successful authentication, returns `refresh` and `access` tokens:  
     ```json
     {
-        "token": "b0d1cd2de6ae71ea0573ae83861d3a35bea75a09"
+        "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczNDM1MTk3MCwiaWF0IjoxNzM0MjY1NTcwLCJqdGkiOiJjYmJkOGVjY2ExZDE0NTAzYTk0MDdiODU2MDQ4Yzc0NyIsInVzZXJfaWQiOjF9.Qfx-f-tI_tf_SZYBB_qOCpTjfC2PJlu7-PGc4TVHaGU",
+        "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0MjY1ODcwLCJpYXQiOjE3MzQyNjU1NzAsImp0aSI6IjA1MWJhMTc5MDg0MjRkODM5NmJiZDJmNWFhZTFhMDI5IiwidXNlcl9pZCI6MX0.R_N3vzBwGkwU3NJhF52lLe_k7BwOQLalGo0y_7ojDKI"
     }
     ```
 
@@ -87,11 +125,17 @@ Link to the [Postman Collection](https://github.com/TejaVenkatBalla/vms/blob/mai
 - **Delete a purchase order:** DELETE `/api/purchase_orders/{po_id}/`
 - **Update Acknowledgment:** POST `/api/purchase_orders/{po_id}/acknowledge/`
 
-For all endpoints, you need to include the obtained token in the `Authorization` header with the prefix "token".
+### Endpoint to Schedule a Task (Vendor Deadline Reminder)
+ 
+- **URL:** GET `/api/scheduler/`  
+- **Purpose:** Schedule a reminder for a vendor about the delivery deadlines.  
+
+
+For all endpoints, you need to include the obtained access token in the `Authorization` header with the prefix "Bearer".
 
 For example:
 ```
-Authorization: token b0d1cd2de6ae71ea0573ae83861d3a35bea75a09
+Authorization: Bearer <access token>
 ```
 Make sure to replace `{vendor_id}` and `{po_id}` with the actual IDs of vendors and purchase orders respectively.
 
