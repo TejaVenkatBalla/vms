@@ -8,6 +8,9 @@ from .serializers import VendorSerializer, PurchaseOrderSerializer, UserSerializ
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from .tasks import send_vendor_notification_email
+from django_celery_beat.models import PeriodicTask, IntervalSchedule
+from django.http import HttpResponse
+
 class RegisterView(APIView):
     def post(self, request):
         # Validate and serialize user data
@@ -210,3 +213,18 @@ def acknowledge_purchase_order(request, po_id):
 
     return Response({'message': 'Purchase Order acknowledged successfully'}, status=status.HTTP_200_OK)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def schedule_task(request):
+    interval, _ = IntervalSchedule.objects.get_or_create(
+        every=30,
+        period=IntervalSchedule.SECONDS,
+    )
+
+    PeriodicTask.objects.create(
+        interval=interval,
+        name="deadline-scheduler_01",
+        task="myapp.tasks.send_delivery_deadline_reminders",
+    )
+
+    return HttpResponse("Task scheduled!")

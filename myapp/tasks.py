@@ -1,6 +1,9 @@
 from celery import shared_task
 from django.core.mail import send_mail
 from django.conf import settings
+from django.utils.timezone import now
+from .models import PurchaseOrder
+from datetime import timedelta
 
 @shared_task
 def send_vendor_notification_email(email, subject, message):
@@ -14,11 +17,6 @@ def send_vendor_notification_email(email, subject, message):
         recipient_list=[email],
         fail_silently=False,
     )
-
-from django.utils.timezone import now
-from .models import PurchaseOrder
-from datetime import timedelta
-
 
 @shared_task
 def send_delivery_deadline_reminders():
@@ -36,7 +34,7 @@ def send_delivery_deadline_reminders():
         delivery_date__gte=current_date,       # Deadline is not in the past
         status='pending'                       # Ensure only pending orders are notified
     )
-
+    print(upcoming_deadlines)
     for po in upcoming_deadlines:
         # Send an email to the vendor
         vendor_email = po.vendor.email  # Assuming email is in contact_details

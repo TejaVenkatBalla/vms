@@ -26,4 +26,6 @@ urlpatterns = [
     # Acknowledge Purchase Order
     path('api/purchase_orders/<int:po_id>/acknowledge/',
          views.acknowledge_purchase_order, name='acknowledge-purchaseorder'),
+
+    path('api/scheduler',views.schedule_task)
 ]
