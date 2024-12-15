@@ -61,6 +61,15 @@ To run server
 python manage.py runserver
 ```
 
+To start Celery Worker
+```
+celery -A vms worker --pool=solo -l info
+```
+To start the Celery Beat scheduler for periodic tasks
+```
+celery -A vms beat -l INFO --scheduler django_celery_beat.schedulers.DatabaseScheduler
+```
+
 ## Test
 To execute test scripts, use `python3 manage.py test`
 
