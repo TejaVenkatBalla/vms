@@ -27,5 +27,6 @@ urlpatterns = [
     path('api/purchase_orders/<int:po_id>/acknowledge/',
          views.acknowledge_purchase_order, name='acknowledge-purchaseorder'),
 
+     # corn job scheduler api
     path('api/scheduler',views.schedule_task)
 ]

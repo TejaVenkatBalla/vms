@@ -25,7 +25,7 @@ class RegisterView(APIView):
 
             # Return the tokens as response
             return Response({
-                "message": "User Successfully Registerd",
+                "message": "User Successfully Registered",
                 'refresh': str(refresh),
                 'access': access_token,
             }, status=status.HTTP_201_CREATED)
